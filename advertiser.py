@@ -1,13 +1,21 @@
-from BaseAdvertising import BaseAdvertising
+from base_advertising import BaseAdvertising
 
 
 class Advertiser(BaseAdvertising):
     __total_clicks = 0
+    __ids = set()
 
     def __init__(self, advertiser_id, name):
-        super().__init__()
-        self.__id = advertiser_id
+        Advertiser.validate_id(advertiser_id)
+        super().__init__(advertiser_id)
+        Advertiser.__ids.add(advertiser_id)
         self.__name = name
+
+    @classmethod
+    def validate_id(self, id):
+        print(Advertiser.__ids)
+        if(id in Advertiser.__ids):
+            raise AttributeError
 
     def get_name(self):
         return self.__name

@@ -1,14 +1,25 @@
-from BaseAdvertising import BaseAdvertising
-from Advertiser import Advertiser
-from Ad import Ad
+from base_advertising import BaseAdvertising
+from advertiser import Advertiser
+from ad import Ad
 
 
 if __name__ == '__main__':
     # Error : BaseAdverting is an abstract class and can't initialze.
     # base_advertising = new BaseAdvertising()
+    try:
+        advertiser1 = Advertiser(1, "name1")
+    except AttributeError:
+        print("This id is taken.")
 
-    advertiser1 = Advertiser(1, "name1")
-    advertiser2 = Advertiser(2, "name2")
+    try:
+        advertiser2 = Advertiser(2, "name1")
+    except AttributeError:
+        print("This id is taken.")
+    
+    try:
+        advertiser3 = Advertiser(2, "name3")
+    except AttributeError:
+        print("This id is taken.")
 
     ad1 = Ad(1, "title1", "img-url1", "link1", advertiser1)
     ad2 = Ad(2, "title2", "img-url2", "link2", advertiser2)

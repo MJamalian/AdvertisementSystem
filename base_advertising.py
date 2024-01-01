@@ -3,7 +3,8 @@ from abc import ABC, abstractmethod
 
 class BaseAdvertising(ABC):
 
-    def __init__(self):
+    def __init__(self, id):
+        self.__id = id
         self.__views = 0
         self.__clicks = 0
 
