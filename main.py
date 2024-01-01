@@ -16,6 +16,7 @@ if __name__ == '__main__':
     except AttributeError:
         print("This id is taken.")
     
+    # raise an error because this id is already taken by another advertiser.
     try:
         advertiser3 = Advertiser(2, "name3")
     except AttributeError:

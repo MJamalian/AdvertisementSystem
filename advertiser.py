@@ -13,7 +13,6 @@ class Advertiser(BaseAdvertising):
 
     @classmethod
     def validate_id(self, id):
-        print(Advertiser.__ids)
         if(id in Advertiser.__ids):
             raise AttributeError
 
