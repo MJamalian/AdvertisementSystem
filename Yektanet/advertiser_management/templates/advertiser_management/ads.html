@@ -16,7 +16,7 @@
     <div style="width: 90%; height: 180px; margin: 10px 10px 10px 10px;border: 1px solid #ccc;">
         {% for ad in advertiser.ad_set.all %}
         <div style="width: 120px;display:inline-block;margin-right:5px">
-            <a href="{{ ad.link }}" style="text-decoration: none;">
+            <a href="{% url "advertiser_management:redirect" ad.id %}" style="text-decoration: none;">
                 <img style="display: block;width: 100px;height:90px;margin:10px 10px 10px 10px;" src="{{ ad.img_url }}" alt="{{ ad.title }}">
                 <span style="display: block;width:100px;color: #000;margin:10px 10px 10px 10px;text-align: center;">{{ ad.title }}</span>
             </a>

@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 from .models import Advertiser, Ad
 from django.core.exceptions import ObjectDoesNotExist
+from django.views.generic.base import RedirectView
 
 
 # Create your views here.
@@ -32,3 +33,14 @@ def ads(request):
             return(show_ads())
     elif(request.method == "GET"):
         return(show_ads())
+    
+class RedirectToAdLink(RedirectView):
+
+    def get_redirect_url(self, *args, **kwargs):
+        ad = get_object_or_404(Ad, pk=kwargs["ad_id"])
+        ad.clicks += 1
+        ad.advertiser.clicks += 1
+        ad.save()
+        ad.advertiser.save()
+        self.url = ad.link
+        return super().get_redirect_url(*args, **kwargs)
