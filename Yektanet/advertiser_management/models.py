@@ -10,9 +10,13 @@ class BaseAdvertising(models.Model):
 
     class Meta:
         abstract = True
+    
 
 class Advertiser(BaseAdvertising):
     name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
 
 
 class Ad(BaseAdvertising):
@@ -20,3 +24,6 @@ class Ad(BaseAdvertising):
     img_url = models.CharField(max_length=200)
     link = models.CharField(max_length=200)
     advertiser = models.ForeignKey(Advertiser, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.title
