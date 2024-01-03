@@ -16,10 +16,8 @@ def ads(request):
         advertisers = Advertiser.objects.all()
         for advertiser in advertisers:
             for ad in advertiser.ad_set.all():
-                ad.views += 1
-                advertiser.views += 1
-                ad.save()
-            advertiser.save()
+                ad.view_set.create(user_ip=request.user_ip)
+        
         return(render(request, "advertiser_management/ads.html", {"advertisers": advertisers}))
 
     if(request.method == "POST"):
@@ -38,9 +36,6 @@ class RedirectToAdLink(RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
         ad = get_object_or_404(Ad, pk=kwargs["ad_id"])
-        ad.clicks += 1
-        ad.advertiser.clicks += 1
-        ad.save()
-        ad.advertiser.save()
+        ad.click_set.create(user_ip=self.request.user_ip)
         self.url = ad.link
         return super().get_redirect_url(*args, **kwargs)
