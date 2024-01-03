@@ -16,7 +16,8 @@ def ads(request):
         advertisers = Advertiser.objects.all()
         for advertiser in advertisers:
             for ad in advertiser.ad_set.all():
-                ad.view_set.create(user_ip=request.user_ip)
+                if(ad.approved):
+                    ad.view_set.create(user_ip=request.user_ip)
         
         return(render(request, "advertiser_management/ads.html", {"advertisers": advertisers}))
 
