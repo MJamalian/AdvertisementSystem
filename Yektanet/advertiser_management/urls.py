@@ -5,7 +5,7 @@ from . import views
 app_name = "advertiser_management"
 
 urlpatterns = [
-    path("create_ad/", views.new_ad, name="create_ad"),
-    path("ads/", views.ads, name="ads"),
-    path("redirect/<int:ad_id>/", views.RedirectToAdLink.as_view(), name="redirect")
+    path("create_ad/", views.AdCreateView.as_view(), name="create_ad"),
+    path("ads/", views.AdShowView.as_view(), name="show_ads"),
+    path("redirect/<int:ad_id>/", views.AdRedirectView.as_view(), name="redirect")
 ]

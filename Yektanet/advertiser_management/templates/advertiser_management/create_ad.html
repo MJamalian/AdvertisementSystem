@@ -13,7 +13,7 @@
   <main>
     {% if error_message %}<p style="color: red;"><strong>{{ error_message }}</strong></p>{% endif %}
 
-    <form method="post" action="{% url "advertiser_management:ads" %}">
+    <form method="post" action="{% url "advertiser_management:create_ad" %}">
         {% csrf_token %}
         <label for="advertiser_id">Advertiser ID:</label>
         <br>

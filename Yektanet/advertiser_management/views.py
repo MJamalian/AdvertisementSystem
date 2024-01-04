@@ -1,39 +1,42 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
+from django.urls import reverse
 
 from .models import Advertiser, Ad
 from django.core.exceptions import ObjectDoesNotExist
-from django.views.generic.base import RedirectView
-
+from django.views.generic.base import RedirectView, TemplateView
+from django.views.generic.list import ListView
 
 # Create your views here.
 
-def new_ad(request):
-    return(render(request, "advertiser_management/create_ad.html"))
+    
+class AdCreateView(TemplateView):
+    template_name = "advertiser_management/create_ad.html"
 
-def ads(request):
-
-    def show_ads():
-        advertisers = Advertiser.objects.all()
-        for advertiser in advertisers:
-            for ad in advertiser.ad_set.all():
-                if(ad.approved):
-                    ad.view_set.create(user_ip=request.user_ip)
-        
-        return(render(request, "advertiser_management/ads.html", {"advertisers": advertisers}))
-
-    if(request.method == "POST"):
+    def post(self, request, *args, **kwargs):
         advertiser_id = request.POST["advertiser_id"]
         try:
             advertiser = Advertiser.objects.get(pk=advertiser_id)
+
         except ObjectDoesNotExist:
-            return(render(request, "advertiser_management/create_ad.html", {"error_message": "Advertiser with that id doesn't exist."}))
+            return(render(request, self.template_name, {"error_message": "Advertiser with that id doesn't exist."}))
+        
         else:
             advertiser.ad_set.create(title=request.POST["title"], img_url=request.POST["img_url"], link=request.POST["link"])
-            return(show_ads())
-    elif(request.method == "GET"):
-        return(show_ads())
+            return HttpResponseRedirect(reverse("advertiser_management:show_ads"))
+
+class AdShowView(ListView):
+    model = Advertiser
+    context_object_name = "advertisers"
+    template_name = "advertiser_management/ads.html"
+
+    def get(self, request, *args, **kwargs):
+        for ad in Ad.objects.all():
+            if(ad.approved):
+                ad.view_set.create(user_ip=request.user_ip)
+
+        return super().get(self, request, *args, **kwargs)
     
-class RedirectToAdLink(RedirectView):
+class AdRedirectView(RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
         ad = get_object_or_404(Ad, pk=kwargs["ad_id"])
