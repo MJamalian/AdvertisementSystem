@@ -35,7 +35,7 @@ class AdShowView(ListView):
 
     def get(self, request, *args, **kwargs):
         for ad in Ad.objects.all():
-            if(ad.approved):
+            if ad.approved:
                 ad.view_set.create(user_ip=request.user_ip)
 
 
