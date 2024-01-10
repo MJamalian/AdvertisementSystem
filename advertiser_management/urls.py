@@ -1,12 +1,15 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
+from rest_framework import routers
+
 
 
 app_name = "advertiser_management"
 
+router = routers.DefaultRouter()
+router.register(r'ads', views.AdViewSet)
+router.register(r'report/ads', views.ReportViewSet, basename="report-detail")
+
 urlpatterns = [
-    path("create_ad/", views.AdCreateView.as_view(), name="create_ad"),
-    path("ads/", views.AdShowView.as_view(), name="show_ads"),
-    path("redirect/<int:ad_id>/", views.AdRedirectView.as_view(), name="redirect"),
-    path("report/ad/<int:ad_id>", views.AdReportView.as_view(), name="report")
+    path("", include(router.urls))
 ]

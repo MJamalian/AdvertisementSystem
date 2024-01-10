@@ -17,25 +17,19 @@ class Ad(models.Model):
     img_url = models.CharField(max_length=200)
     link = models.CharField(max_length=200)
     approved = models.BooleanField(default=False)
-    advertiser = models.ForeignKey(Advertiser, on_delete=models.CASCADE)
+    advertiser = models.ForeignKey(Advertiser, related_name="ads", on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
     
-class Action(models.Model):
-    ad = models.ForeignKey(Ad, on_delete=models.CASCADE)
+class View(models.Model):
+    ad = models.ForeignKey(Ad, related_name="views", on_delete=models.CASCADE)
     datetime = models.DateTimeField(default=timezone.now)
     user_ip = models.CharField(max_length=20)
 
-    class Meta:
-        abstract = True
-    
-class View(Action):
-    pass
-    # def __str__(self):
-    #     return "Ad with id" + self.ad + "viewed at" + self.view_datetime
 
-class Click(Action):
-    pass
-    # def __str__(self):
-    #     return "Ad with id" + self.ad + "clicked at" + self.view_datetime
+class Click(models.Model):
+    ad = models.ForeignKey(Ad, related_name="clicks", on_delete=models.CASCADE)
+    datetime = models.DateTimeField(default=timezone.now)
+    user_ip = models.CharField(max_length=20)
+
