@@ -7,6 +7,7 @@ from datetime import datetime
 
 class Advertiser(models.Model):
     name = models.CharField(max_length=50)
+    owner = models.ForeignKey('auth.User', related_name='advertisers', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
