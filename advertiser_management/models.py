@@ -34,3 +34,11 @@ class Click(models.Model):
     datetime = models.DateTimeField(default=timezone.now)
     user_ip = models.CharField(max_length=20)
 
+class HourlyViews(models.Model):
+    ad = models.ForeignKey(Ad, related_name="hourly_views", on_delete=models.CASCADE)
+    views_count = models.IntegerField()
+
+class HourlyClicks(models.Model):
+    ad = models.ForeignKey(Ad, related_name="hourly_clicks", on_delete=models.CASCADE)
+    clicks_count = models.IntegerField()
+

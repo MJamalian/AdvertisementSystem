@@ -4,7 +4,7 @@ from .models import Ad, View
 
 from .permissions import IsOwnerOrReadOnly, IsOwner
 
-from django.db.models import Count, OuterRef, Subquery, Q, F, ExpressionWrapper, DurationField, Avg
+from django.db.models import Count, OuterRef, Subquery, Q, F, ExpressionWrapper, DurationField, Avg, Sum
 
 from rest_framework.response import Response
 from rest_framework import status

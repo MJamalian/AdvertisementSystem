@@ -121,3 +121,20 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+CELERY_BROKER_URL = "amqp://localhost"
+# If time zones are active (USE_TZ = True) define your local 
+CELERY_TIMEZONE = "Asia/Tehran"
+
+
+CELERY_BEAT_SCHEDULE = {
+    "count-views-clicks-every-hour":{
+        "task" : "advertiser_management.tasks.count_views_clicks_every_hour",
+        "schedule" : 3600.0
+    },
+    "count-views-clicks-every-day":{
+        "task" : "advertiser_management.tasks.count_views_clicks_every_day",
+        "schedule" : 86400.0
+    },
+}
